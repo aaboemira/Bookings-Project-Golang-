@@ -1,10 +1,10 @@
 package render
 
 import (
-	"github.com/aaboemira/bookings/package/config"
-	"github.com/aaboemira/bookings/package/models"
 	"bytes"
 	"fmt"
+	"github.com/aaboemira/bookings/package/config"
+	"github.com/aaboemira/bookings/package/models"
 	"html/template"
 	"log"
 	"net/http"
@@ -56,21 +56,25 @@ func TemplateCreate() (map[string]*template.Template, error) {
 	myCache := map[string]*template.Template{}
 	pages, err := filepath.Glob("./templates/*page.tmpl")
 	if err != nil {
+		fmt.Println("1")
 		return myCache, err
 	}
 	for _, page := range pages {
 		name := filepath.Base(page)
 		ts, err := template.New(name).Funcs(functions).ParseFiles(page)
 		if err != nil {
+			fmt.Println("2")
 			return myCache, err
 		}
 		matches, err := filepath.Glob("./templates/*layout.tmpl")
 		if err != nil {
+			fmt.Println("3")
 			return myCache, err
 		}
 		if len(matches) > 0 {
 			ts, err = ts.ParseGlob("./templates/*.layout.tmpl")
 			if err != nil {
+				fmt.Println("4")
 				return myCache, err
 			}
 		}
