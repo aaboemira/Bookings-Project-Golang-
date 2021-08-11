@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/aaboemira/bookings/package/config"
-	"github.com/aaboemira/bookings/package/handlers"
-	"github.com/aaboemira/bookings/package/render"
 	"fmt"
+	"github.com/aaboemira/bookings/internal/config"
+	"github.com/aaboemira/bookings/internal/handlers"
+	"github.com/aaboemira/bookings/internal/render"
 	"log"
 	"net/http"
 	"time"
@@ -21,14 +21,14 @@ func main() {
 
 	//change this to true when in production
 
-	app.InProduction=false
+	app.InProduction = false
 	session = scs.New()
-	session.Lifetime=24 *time.Hour
-	session.Cookie.Persist=true
-	session.Cookie.SameSite=http.SameSiteLaxMode
-	session.Cookie.Secure=app.InProduction
+	session.Lifetime = 24 * time.Hour
+	session.Cookie.Persist = true
+	session.Cookie.SameSite = http.SameSiteLaxMode
+	session.Cookie.Secure = app.InProduction
 
-	app.Session=session
+	app.Session = session
 	tc, err := render.TemplateCreate()
 	if err != nil {
 		log.Fatal("cannot create template cache")

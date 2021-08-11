@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/aaboemira/bookings/package/config"
-	"github.com/aaboemira/bookings/package/handlers"
+	"github.com/aaboemira/bookings/internal/config"
+	"github.com/aaboemira/bookings/internal/handlers"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"

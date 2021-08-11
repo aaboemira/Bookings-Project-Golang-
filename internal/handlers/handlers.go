@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	"github.com/aaboemira/bookings/package/config"
-	"github.com/aaboemira/bookings/package/models"
-	"github.com/aaboemira/bookings/package/render"
+	"github.com/aaboemira/bookings/internal/config"
+	"github.com/aaboemira/bookings/internal/models"
+	"github.com/aaboemira/bookings/internal/render"
 	"net/http"
 )
 

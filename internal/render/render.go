@@ -3,8 +3,8 @@ package render
 import (
 	"bytes"
 	"fmt"
-	"github.com/aaboemira/bookings/package/config"
-	"github.com/aaboemira/bookings/package/models"
+	"github.com/aaboemira/bookings/internal/config"
+	"github.com/aaboemira/bookings/internal/models"
 	"html/template"
 	"log"
 	"net/http"
