@@ -1,9 +1,11 @@
 package main
 
 import (
+	"encoding/gob"
 	"fmt"
 	"github.com/aaboemira/bookings/internal/config"
 	"github.com/aaboemira/bookings/internal/handlers"
+	"github.com/aaboemira/bookings/internal/models"
 	"github.com/aaboemira/bookings/internal/render"
 	"log"
 	"net/http"
@@ -18,6 +20,19 @@ var app config.AppConfig
 var session *scs.SessionManager
 
 func main() {
+	err := run()
+	fmt.Println(fmt.Sprintf("Starting application on port   %s", portNumber))
+	srv := &http.Server{
+		Addr:    portNumber,
+		Handler: routes(&app),
+	}
+	err = srv.ListenAndServe()
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+func run() error {
+	gob.Register(models.Reservation{})
 
 	//change this to true when in production
 
@@ -32,6 +47,7 @@ func main() {
 	tc, err := render.TemplateCreate()
 	if err != nil {
 		log.Fatal("cannot create template cache")
+		return err
 	}
 	app.TemplateCache = tc
 	app.UseCache = false
@@ -40,14 +56,6 @@ func main() {
 	handlers.NewHandlers(repo)
 
 	render.NewTemplates(&app)
+	return nil
 
-	fmt.Println(fmt.Sprintf("Starting application on port   %s", portNumber))
-	srv := &http.Server{
-		Addr:    portNumber,
-		Handler: routes(&app),
-	}
-	err = srv.ListenAndServe()
-	if err != nil {
-		log.Fatal(err)
-	}
 }

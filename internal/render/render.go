@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/aaboemira/bookings/internal/config"
 	"github.com/aaboemira/bookings/internal/models"
+	"github.com/justinas/nosurf"
 	"html/template"
 	"log"
 	"net/http"
@@ -19,13 +20,16 @@ var app *config.AppConfig
 func NewTemplates(a *config.AppConfig) {
 	app = a
 }
-func AddTempData(td *models.TemplateData) *models.TemplateData {
-
+func AddTempData(td *models.TemplateData, r *http.Request) *models.TemplateData {
+	td.Error = app.Session.PopString(r.Context(), "error")
+	td.Flash = app.Session.PopString(r.Context(), "flash")
+	td.Warning = app.Session.PopString(r.Context(), "warning")
+	td.CSRFToken = nosurf.Token(r)
 	return td
 }
 
 // RenderTemplate renders a template
-func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData) {
+func RenderTemplate(w http.ResponseWriter, r *http.Request, tmpl string, td *models.TemplateData) {
 	// get the template cache from the app config
 	var tc map[string]*template.Template
 
@@ -42,7 +46,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData)
 
 	buf := new(bytes.Buffer)
 
-	td = AddTempData(td)
+	td = AddTempData(td, r)
 
 	_ = temp.Execute(buf, td)
 
